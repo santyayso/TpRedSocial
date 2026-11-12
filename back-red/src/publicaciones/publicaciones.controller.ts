@@ -27,11 +27,11 @@ type Autenticada = Request & { user: { sub: string; perfil: string } };
 @Controller('publicaciones')
 @UseGuards(JwtAuthGuard)
 export class PublicacionesController {
-  constructor(private readonly publicaciones: PublicacionesService) {}
+  constructor(private readonly publicacionesService: PublicacionesService) {}
 
   @Get()
   listar(@Req() req: Autenticada, @Query() consulta: ListarPublicacionesDto) {
-    return this.publicaciones.listar(req.user.sub, consulta);
+    return this.publicacionesService.listar(req.user.sub, consulta);
   }
 
   @Post()
@@ -54,24 +54,24 @@ export class PublicacionesController {
     @Body() datos: CrearPublicacionDto,
     @UploadedFile() archivo?: Express.Multer.File,
   ) {
-    return this.publicaciones.crear(req.user.sub, datos, archivo);
+    return this.publicacionesService.crear(req.user.sub, datos, archivo);
   }
 
   @Delete(':id')
   @HttpCode(204)
   eliminar(@Req() req: Autenticada, @Param('id') id: string) {
-    return this.publicaciones.eliminar(req.user.sub, req.user.perfil, id);
+    return this.publicacionesService.eliminar(req.user.sub, req.user.perfil, id);
   }
 
   @Post(':id/me-gusta')
   @HttpCode(200)
   darMeGusta(@Req() req: Autenticada, @Param('id') id: string) {
-    return this.publicaciones.darMeGusta(req.user.sub, id);
+    return this.publicacionesService.darMeGusta(req.user.sub, id);
   }
 
   @Delete(':id/me-gusta')
   // @HttpCode(200)
   quitarMeGusta(@Req() req: Autenticada, @Param('id') id: string) {
-    return this.publicaciones.quitarMeGusta(req.user.sub, id);
+    return this.publicacionesService.quitarMeGusta(req.user.sub, id);
   }
 }

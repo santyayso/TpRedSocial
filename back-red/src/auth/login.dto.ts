@@ -8,10 +8,14 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CredencialesDto {
-  @Transform(({ value }: { value: unknown }) =>
-    typeof value === 'string' ? value.trim().toLowerCase() : value,
-  )
+export class LoginDto {
+  // limpiamos el valor antes de validarlo, pero antes nos  aseguramos que  sea un string para q no explote con trim  y lowercase
+  @Transform(({ value }: { value: unknown }) => {
+    if (typeof value === 'string') {
+      return value.trim().toLowerCase();
+    }
+    return value;
+  })
   @IsEmail()
   @MaxLength(254)
   email!: string;

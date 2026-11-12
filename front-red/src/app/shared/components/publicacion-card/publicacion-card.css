@@ -60,16 +60,22 @@
 
 .publicacion > h3 {
     margin: 0 0 0.8rem;
-    color: var(--texto-principal);
-    font-size: 1.3rem;
+
+    color: var(--cian);
+
+    font-size: 1.35rem;
     font-weight: 700;
 }
 
 .publicacion > p {
-    margin: 0 0 1.3rem;
-    color: var(--texto-secundario);
-    font-size: 0.95rem;
-    line-height: 1.65;
+    margin: 0 0 1.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.8;
+
     overflow-wrap: anywhere;
     white-space: pre-wrap;
 }
@@ -79,8 +85,11 @@
     width: 100%;
     max-height: 500px;
     margin: 1.3rem 0;
+
     object-fit: contain;
+
     background-color: var(--fondo);
+
     border: 1px solid var(--borde);
     border-radius: 10px;
 }
@@ -89,34 +98,80 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+
     padding-top: 1.2rem;
     margin-top: 1.3rem;
+
     border-top: 1px solid var(--borde);
 }
 
 .publicacion-acciones button {
     padding: 0.6rem 1rem;
+
     background-color: transparent;
     color: var(--texto-principal);
+
     border: 1px solid var(--borde);
     border-radius: 7px;
+
     font-size: 0.85rem;
     font-weight: 600;
+
+    cursor: pointer;
+
     transition:
         background-color 0.2s ease,
         color 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
-.btn-me-gusta:hover:not(:disabled) {
+.publicacion-acciones .btn-me-gusta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+
+    padding: 0.65rem 1.1rem;
+
+    background-color: var(--fondo-card);
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 25px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.icono-like {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.publicacion-acciones .btn-me-gusta:hover:not(:disabled) {
     color: var(--cian);
     border-color: var(--cian);
+    background-color: rgba(34, 211, 238, 0.08);
+
+    transform: translateY(-2px);
 }
 
 .publicacion-acciones .btn-me-gusta.activo {
-    background-color: rgba(34, 211, 238, 0.12);
-    color: var(--cian);
+    background-color: var(--cian);
+    color: var(--fondo);
     border-color: var(--cian);
+}
+
+.publicacion-acciones .btn-me-gusta.activo:hover:not(:disabled) {
+    background-color: var(--cian-hover);
+    color: var(--fondo);
+    border-color: var(--cian-hover);
+}
+
+.publicacion-acciones .btn-me-gusta:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .publicacion-acciones > span {
@@ -132,26 +187,7 @@
 .publicacion-acciones .btn-eliminar:hover {
     color: var(--error);
     border-color: var(--error);
-}
-
-.publicacion .modal-cuerpo > button {
-    padding: 0.7rem 1rem;
-    margin: 0.5rem 0.6rem 0 0;
-    background-color: transparent;
-    color: var(--texto-principal);
-    border: 1px solid var(--borde);
-    border-radius: 7px;
-    font-weight: 600;
-}
-
-.publicacion .modal-cuerpo > button:first-of-type {
-    background-color: var(--cian);
-    color: var(--fondo);
-    border-color: var(--cian);
-}
-
-.publicacion .modal-cuerpo > button:hover {
-    border-color: var(--cian-hover);
+    background-color: rgba(251, 113, 133, 0.06);
 }
 
 @media (max-width: 600px) {
@@ -172,5 +208,13 @@
     .publicacion-acciones {
         flex-wrap: wrap;
         gap: 0.7rem;
+    }
+
+    .publicacion > h3 {
+        font-size: 1.2rem;
+    }
+
+    .publicacion > p {
+        font-size: 0.95rem;
     }
 }

@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, isObjectIdOrHexString } from 'mongoose';
 import { PublicacionMongo } from './publicacion.schema';
 import type { PublicacionDocument } from './publicacion.schema';
-import type { Publicacion } from './publicacion';
+import type { PublicacionInterface } from './publicacion';
 import { CrearPublicacionDto } from './dto/crear-publicacion-dto';
 import { ListarPublicacionesDto } from './dto/listar-publicaciones-dto';
 import { UsuariosService } from '../usuarios/usuarios.service';
@@ -55,8 +55,8 @@ export class PublicacionesService {
     archivo?: Express.Multer.File,
   ) {
     const subida = archivo
-      ? await this.imagenes.subir(
-          await this.imagenes.normalizar(archivo),
+      ? await this.imagenes.subirCloudinary(
+          await this.imagenes.normalizarImagen(archivo),
           'publicaciones',
         )
       : undefined;
@@ -122,10 +122,10 @@ export class PublicacionesService {
   private async presentar(
     documentos: PublicacionDocument[],
     usuarioId: string,
-  ): Promise<Publicacion[]> {
+  ): Promise<PublicacionInterface[]> {
     const autores = new Map(
       (
-        await this.usuarios.listarPorIds([
+        await this.usuarios.listarUsuariosPorIds([
           ...new Set(documentos.map((documento) => documento.autor)),
         ])
       ).map((usuario) => [usuario.id, usuario]),

@@ -1,4 +1,4 @@
-export interface AutorPublicacion {
+export interface AutorPublicacionInterface {
   id: string;
   nombre: string;
   apellido: string;
@@ -6,12 +6,12 @@ export interface AutorPublicacion {
   imagen_url: string;
 }
 
-export interface Publicacion {
+export interface PublicacionInterface {
   id: string;
   titulo: string;
   mensaje: string;
   imagen_url: string;
-  autor: AutorPublicacion | null;
+  autor: AutorPublicacionInterface | null;
   cantidadMeGusta: number;
   meGusta: boolean;
   createdAt: Date;

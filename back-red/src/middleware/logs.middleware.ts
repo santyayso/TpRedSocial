@@ -6,11 +6,13 @@ export class LogsMiddleware implements NestMiddleware {
   private readonly logger = new Logger('HTTP');
 
   use(req: Request, res: Response, next: NextFunction) {
-    const inicio = Date.now();
+    const inicioRequest = Date.now();
+     // imprime                //corta todo lo que esta  a la izquierda del ?
     this.logger.log(`${req.method} ${req.originalUrl.split('?')[0]}`);
     res.once('finish', () => {
-      const duracion = Date.now() - inicio;
-      this.logger.log(`← ${res.statusCode} (${duracion} ms)`);
+      // cuando  termina  la respuesta  calcula el tiempo que tardó
+      const duracionResponse = Date.now() - inicioRequest;
+      this.logger.log(`← ${res.statusCode} (${duracionResponse} ms)`);
     });
     next();
   }

@@ -100,11 +100,17 @@
     </app-modal>
   }
 
-  @if (mensaje()) {
+@if (mensaje()) {
     <app-modal titulo="Aviso" (cerrar)="mensaje.set(null)">
-      <p>{{ mensaje() }}</p>
-      <button type="button" (click)="mensaje.set(null)">Aceptar</button>
+        <p>{{ mensaje() }}</p>
+
+        <div class="acciones-modal">
+            <button class="boton-aceptar-modal" type="button" (click)="mensaje.set(null)">
+                Aceptar
+            </button>
+        </div>
     </app-modal>
-  }
+}
+
  
 </section>
