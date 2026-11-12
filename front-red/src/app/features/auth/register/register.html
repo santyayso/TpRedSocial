@@ -1,0 +1,140 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Crear cuenta</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" formControlName="nombre" placeholder="Tu nombre">
+        @if (f.nombre.touched && f.nombre.invalid) {
+          <small class="error">
+            @if (f.nombre.hasError('required') || f.nombre.hasError('pattern')) {
+              El nombre es obligatorio
+            } @else {
+              Entre 2 y 100 caracteres
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input id="apellido" type="text" formControlName="apellido" placeholder="Tu apellido">
+        @if (f.apellido.touched && f.apellido.invalid) {
+          <small class="error">
+            @if (f.apellido.hasError('required') || f.apellido.hasError('pattern')) {
+              El apellido es obligatorio
+            } @else {
+              Entre 2 y 100 caracteres
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input id="email" type="email" formControlName="email" placeholder="tu@email.com">
+        @if (f.email.touched && f.email.invalid) {
+          <small class="error">
+            @if (f.email.hasError('required')) {
+              El correo es obligatorio
+            } @else {
+              Ingresá un correo válido
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="nombreUsuario">Nombre de usuario</label>
+        <input id="nombreUsuario" type="text" formControlName="nombreUsuario" placeholder="usuario_123">
+        @if (f.nombreUsuario.touched && f.nombreUsuario.invalid) {
+          <small class="error">
+            @if (f.nombreUsuario.hasError('required')) {
+              El nombre de usuario es obligatorio
+            } @else if (f.nombreUsuario.hasError('pattern')) {
+              Solo letras, números y guion bajo
+            } @else {
+              Entre 3 y 30 caracteres
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña (mínimo 8 caracteres, una mayúscula y un número)</label>
+        <input id="password" type="password" formControlName="password" placeholder="********">
+        @if (f.password.touched && f.password.invalid) {
+          <small class="error">
+            @if (f.password.hasError('required')) {
+              La contraseña es obligatoria
+            } @else if (f.password.hasError('minlength')) {
+              Mínimo 8 caracteres
+            } @else if (f.password.hasError('maxlength')) {
+              Máximo 72 caracteres
+            } @else {
+              Debe tener al menos una mayúscula y un número
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="repetirPassword">Repetir contraseña</label>
+        <input id="repetirPassword" type="password" formControlName="repetirPassword" placeholder="********">
+        @if (f.repetirPassword.touched && f.repetirPassword.hasError('required')) {
+          <small class="error">Repetí la contraseña</small>
+        } @else if (f.repetirPassword.touched && registerForm.hasError('contraseniasDistintas')) {
+          <small class="error">Las contraseñas no coinciden</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="fechaNacimiento">Fecha de nacimiento</label>
+        <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" [max]="hoy">
+        @if (f.fechaNacimiento.touched && f.fechaNacimiento.invalid) {
+          <small class="error">
+            @if (f.fechaNacimiento.hasError('required')) {
+              La fecha de nacimiento es obligatoria
+            } @else {
+              La fecha no puede ser futura
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción breve</label>
+        <textarea id="descripcion" formControlName="descripcion" rows="3" placeholder="Contanos algo sobre vos"></textarea>
+        @if (f.descripcion.touched && f.descripcion.invalid) {
+          <small class="error">
+            @if (f.descripcion.hasError('maxlength')) {
+              Máximo 300 caracteres
+            } @else {
+              La descripción es obligatoria
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="imagen">Imagen de perfil</label>
+        <input id="imagen" type="file" accept="image/jpeg,image/png,image/webp" (change)="onArchivo($event)">
+        @if (errorArchivo()) {
+          <small class="error">{{ errorArchivo() }}</small>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-msg" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <button type="submit" [disabled]="isLoading()">
+        {{ isLoading() ? 'Registrando...' : 'Registrarse' }}
+      </button>
+    </form>
+
+    <p class="auth-link">
+      ¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión acá</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="modal-fondo" (click)="cerrar.emit()">
+  <div
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="titulo()"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="modal-header">
+      <h3>{{ titulo() }}</h3>
+      <button type="button" class="modal-cerrar" aria-label="Cerrar" (click)="cerrar.emit()">×</button>
+    </header>
+    <div class="modal-cuerpo">
+      <ng-content />
+    </div>
+  </div>
+</div>

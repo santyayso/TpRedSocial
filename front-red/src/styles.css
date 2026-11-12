@@ -1,0 +1,231 @@
+
+:root {
+    --cian: #22d3ee;
+    --cian-hover: #67e8f9;
+    --fondo: #0b1120;
+    --fondo-contenedor: #172033;
+    --fondo-card: #1e293b;
+    --texto-principal: #f8fafc;
+    --texto-secundario: #94a3b8;
+    --borde: #334155;
+    --error: #fb7185;
+    --exito: #4ade80;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--fondo);
+    color: var(--texto-principal);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+a {
+    color: var(--cian);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--cian-hover);
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.3rem;
+}
+
+.form-group label {
+    color: var(--texto-principal);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    background-color: var(--fondo-card);
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #64748b;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--cian);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.12);
+}
+
+.form-group input[type="file"] {
+    cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.55rem 0.8rem;
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+    border-color: var(--cian);
+    color: var(--cian);
+}
+
+.error {
+    color: var(--error);
+    font-size: 0.8rem;
+}
+
+.error-msg {
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.2rem;
+    background-color: rgba(251, 113, 133, 0.08);
+    color: var(--error);
+    border: 1px solid rgba(251, 113, 133, 0.3);
+    border-radius: 7px;
+    font-size: 0.9rem;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--cian);
+    outline-offset: 3px;
+}
+
+.boton-publicar {
+    background-color: var(--cian);
+    color: var(--fondo);
+    border: 1px solid var(--cian);
+}
+
+.boton-publicar:hover:not(:disabled) {
+    background-color: var(--cian-hover);
+}
+
+.boton-cancelar {
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+}
+
+.boton-cancelar:hover {
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+.acciones-publicacion {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+}
+
+.acciones-publicacion button {
+    padding: 0.75rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.acciones-publicacion .boton-publicar {
+    background-color: var(--cian);
+    color: var(--fondo);
+    border: 1px solid var(--cian);
+}
+
+.acciones-publicacion .boton-publicar:hover:not(:disabled) {
+    background-color: var(--cian-hover);
+    border-color: var(--cian-hover);
+    transform: translateY(-1px);
+}
+
+.acciones-publicacion .boton-cancelar {
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+}
+
+.acciones-publicacion .boton-cancelar:hover {
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+.acciones-publicacion button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 500px) {
+    .acciones-publicacion {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acciones-publicacion button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,194 @@
+
+.publicaciones-container {
+    width: 90%;
+    max-width: 850px;
+    margin: 3rem auto 5rem;
+}
+
+.publicaciones-container > h2 {
+    margin: 0 0 2rem;
+    color: var(--texto-principal);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.barra-acciones {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.barra-acciones > button {
+    padding: 0.75rem 1.2rem;
+    margin-right: auto;
+
+    background-color: var(--cian);
+    color: var(--fondo);
+
+    border: 1px solid var(--cian);
+    border-radius: 8px;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.barra-acciones > button:hover {
+    background-color: var(--cian-hover);
+    transform: translateY(-2px);
+}
+
+.barra-acciones label {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+.barra-acciones select {
+    padding: 0.7rem 0.9rem;
+    background-color: var(--fondo-card);
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.barra-acciones select:focus {
+    border-color: var(--cian);
+}
+
+.publicaciones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.publicaciones-lista > p,
+.publicaciones-container > p {
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+}
+
+.publicaciones-container > p[role="alert"] {
+    color: var(--error);
+}
+
+.sin-sesion {
+    padding: 2.5rem;
+    text-align: center;
+    background-color: var(--fondo-contenedor);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+}
+
+.sin-sesion p {
+    margin-bottom: 1.5rem;
+    color: var(--texto-secundario);
+}
+
+.sin-sesion a {
+    display: inline-block;
+    margin: 0.3rem;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid var(--cian);
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+.sin-sesion a:first-of-type {
+    background-color: var(--cian);
+    color: var(--fondo);
+}
+
+.sin-sesion a:hover {
+    background-color: rgba(34, 211, 238, 0.12);
+}
+
+.sin-sesion a:first-of-type:hover {
+    background-color: var(--cian-hover);
+}
+
+.paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.paginacion span {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+.paginacion button {
+    padding: 0.65rem 1rem;
+    background-color: var(--fondo-card);
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    font-size: 0.9rem;
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.paginacion button:hover:not(:disabled) {
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+.publicaciones-container .modal-cuerpo form > button {
+    padding: 0.7rem 1.2rem;
+    margin-right: 0.7rem;
+    margin-top: 0.5rem;
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.publicaciones-container .modal-cuerpo form > button[type="submit"] {
+    background-color: var(--cian);
+    color: var(--fondo);
+    border-color: var(--cian);
+}
+
+.publicaciones-container .modal-cuerpo form > button[type="submit"]:hover:not(:disabled) {
+    background-color: var(--cian-hover);
+}
+
+.publicaciones-container .modal-cuerpo form > button[type="button"]:hover {
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+@media (max-width: 600px) {
+    .publicaciones-container {
+        width: 92%;
+        margin-top: 2rem;
+    }
+
+    .publicaciones-container > h2 {
+        font-size: 1.7rem;
+    }
+
+    .barra-acciones {
+        flex-wrap: wrap;
+    }
+
+    .barra-acciones > button {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .paginacion {
+        gap: 0.7rem;
+    }
+}

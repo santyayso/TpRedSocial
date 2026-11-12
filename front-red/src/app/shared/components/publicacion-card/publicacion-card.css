@@ -1,0 +1,176 @@
+
+.publicacion {
+    width: 100%;
+    padding: 1.8rem;
+
+    background-color: var(--fondo-contenedor);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.publicacion:hover {
+    border-color: #475569;
+    transform: translateY(-2px);
+}
+
+.publicacion-autor {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.publicacion-autor .avatar {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 2px solid var(--cian);
+    border-radius: 50%;
+}
+
+.publicacion-autor > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.publicacion-autor strong {
+    color: var(--texto-principal);
+    font-size: 0.95rem;
+}
+
+.publicacion-autor small {
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+}
+
+.publicacion-autor .fecha {
+    margin-left: auto;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.publicacion > h3 {
+    margin: 0 0 0.8rem;
+    color: var(--texto-principal);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.publicacion > p {
+    margin: 0 0 1.3rem;
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.publicacion > .imagen {
+    display: block;
+    width: 100%;
+    max-height: 500px;
+    margin: 1.3rem 0;
+    object-fit: contain;
+    background-color: var(--fondo);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+}
+
+.publicacion-acciones {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.2rem;
+    margin-top: 1.3rem;
+    border-top: 1px solid var(--borde);
+}
+
+.publicacion-acciones button {
+    padding: 0.6rem 1rem;
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-me-gusta:hover:not(:disabled) {
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+.publicacion-acciones .btn-me-gusta.activo {
+    background-color: rgba(34, 211, 238, 0.12);
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+.publicacion-acciones > span {
+    color: var(--texto-secundario);
+    font-size: 0.85rem;
+}
+
+.publicacion-acciones .btn-eliminar {
+    margin-left: auto;
+    color: var(--texto-secundario);
+}
+
+.publicacion-acciones .btn-eliminar:hover {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.publicacion .modal-cuerpo > button {
+    padding: 0.7rem 1rem;
+    margin: 0.5rem 0.6rem 0 0;
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+.publicacion .modal-cuerpo > button:first-of-type {
+    background-color: var(--cian);
+    color: var(--fondo);
+    border-color: var(--cian);
+}
+
+.publicacion .modal-cuerpo > button:hover {
+    border-color: var(--cian-hover);
+}
+
+@media (max-width: 600px) {
+    .publicacion {
+        padding: 1.2rem;
+    }
+
+    .publicacion-autor {
+        flex-wrap: wrap;
+    }
+
+    .publicacion-autor .fecha {
+        width: 100%;
+        margin-left: 0;
+        text-align: left;
+    }
+
+    .publicacion-acciones {
+        flex-wrap: wrap;
+        gap: 0.7rem;
+    }
+}

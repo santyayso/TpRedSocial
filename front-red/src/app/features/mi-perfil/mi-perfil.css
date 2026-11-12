@@ -1,0 +1,141 @@
+
+.perfil-container {
+    width: 90%;
+    max-width: 900px;
+    margin: 3rem auto 5rem;
+}
+
+.perfil-container > h2 {
+    margin: 0 0 2rem;
+    color: var(--texto-principal);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.perfil-datos {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+
+    padding: 2rem;
+    margin-bottom: 3rem;
+
+    background-color: var(--fondo-contenedor);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+}
+
+.avatar-grande {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 3px solid var(--cian);
+    border-radius: 50%;
+}
+
+.perfil-datos > div {
+    min-width: 0;
+}
+
+.perfil-datos h3 {
+    margin: 0 0 0.4rem;
+    color: var(--texto-principal);
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.perfil-datos p {
+    margin: 0 0 0.65rem;
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.perfil-datos p:first-of-type {
+    margin-bottom: 1.5rem;
+    color: var(--cian);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.perfil-datos p:last-child {
+    margin-top: 1.2rem;
+    margin-bottom: 0;
+    color: var(--texto-principal);
+}
+
+.perfil-container > h3 {
+    margin: 0 0 1.5rem;
+    padding-top: 2rem;
+    color: var(--texto-principal);
+    border-top: 1px solid var(--borde);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.perfil-container > p,
+.publicaciones-lista > p {
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+}
+
+.perfil-container > p[role="alert"] {
+    color: var(--error);
+}
+
+.publicaciones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sin-sesion {
+    padding: 2.5rem;
+    text-align: center;
+    background-color: var(--fondo-contenedor);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+}
+
+.sin-sesion p {
+    color: var(--texto-secundario);
+}
+
+.sin-sesion a {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--cian);
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+.sin-sesion a:first-of-type {
+    background-color: var(--cian);
+    color: var(--fondo);
+}
+
+@media (max-width: 650px) {
+    .perfil-container {
+        width: 92%;
+        margin-top: 2rem;
+    }
+
+    .perfil-container > h2 {
+        font-size: 1.7rem;
+    }
+
+    .perfil-datos {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .avatar-grande {
+        width: 120px;
+        height: 120px;
+    }
+}

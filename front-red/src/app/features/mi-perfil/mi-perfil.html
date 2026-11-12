@@ -1,0 +1,42 @@
+<section class="perfil-container">
+  <h2>Mi perfil</h2>
+
+  @if (authService.currentUser(); as usuario) {
+    <div class="perfil-datos">
+      <img [src]="usuario.imagen_url" [attr.alt]="'Foto de ' + usuario.nombreUsuario" class="avatar-grande">
+      <div>
+        <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+        <p>&#64;{{ usuario.nombreUsuario }}</p>
+        <p>Correo: {{ usuario.email }}</p>
+        <p>Fecha de nacimiento: {{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</p>
+        <p>Perfil: {{ usuario.perfil }}</p>
+        <p>{{ usuario.descripcion }}</p>
+      </div>
+    </div>
+
+    <h3>Mis últimas publicaciones</h3>
+
+    @if (cargando()) {
+      <p>Cargando publicaciones...</p>
+    }
+    @if (error()) {
+      <p role="alert">{{ error() }}</p>
+    }
+
+    <div class="publicaciones-lista">
+      @for (publicacion of publicaciones(); track publicacion.id) {
+        <app-publicacion-card [publicacion]="publicacion" (eliminada)="cargar()" />
+      } @empty {
+        @if (!cargando()) {
+          <p>Todavía no hiciste publicaciones.</p>
+        }
+      }
+    </div>
+  } @else {
+    <div class="sin-sesion">
+      <p>No iniciaste sesión.</p>
+      <a routerLink="/login">Iniciar sesión</a>
+      <a routerLink="/register">Registrarse</a>
+    </div>
+  }
+</section>
