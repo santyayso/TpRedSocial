@@ -16,7 +16,8 @@ export class LoginComponent {
   private router = inject(Router);
 
   loginForm = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    // puede ser el correo o el nombre de usuario, por eso ya no usamos Validators.email
+    emailOUsuario: ['', [Validators.required, Validators.minLength(3)]],
     password: [
       '',
       [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d).+$/)],
@@ -37,9 +38,9 @@ export class LoginComponent {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    const { email, password } = this.loginForm.getRawValue();
+    const { emailOUsuario, password } = this.loginForm.getRawValue();
 
-    this.authService.signIn(email, password).subscribe({
+    this.authService.signIn(emailOUsuario, password).subscribe({
       next: (sesion) => {
         this.authService.iniciarSesion(sesion);
         this.isLoading.set(false);

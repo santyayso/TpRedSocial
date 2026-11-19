@@ -301,3 +301,24 @@ a:focus-visible {
         width: 100%;
     }
 }
+
+
+
+
+.acciones-modal .boton-extender-sesion {
+    background-color: var(--cian);
+    color: var(--fondo);
+    border: 1px solid var(--cian);
+}
+
+.acciones-modal .boton-extender-sesion:hover:not(:disabled) {
+    background-color: var(--cian-hover);
+    border-color: var(--cian-hover);
+    transform: translateY(-1px);
+}
+
+.acciones-modal .boton-extender-sesion:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+

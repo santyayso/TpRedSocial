@@ -21,6 +21,11 @@ export class UsuariosService {
     // el + es para que traiga el password, que fue marcado como select en el schema, para que cuando se consulte al usuario no se traiga
   }
 
+  async buscarUsuarioPorNombreUsuario(nombreUsuario: string): Promise<UsuarioDocument | null> {
+    // igual que el de email, trae tambien el passwordHash para poder comparar la contraseña en el login
+    return this.modelo.findOne({ nombreUsuario }).select('+passwordHash').exec();
+  }
+
   async buscarUsuarioPorId(id: string): Promise<UsuarioDocument | null> {
     return this.modelo.findById(id).exec();
   }

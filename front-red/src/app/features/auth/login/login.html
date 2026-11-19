@@ -3,14 +3,14 @@
     <h2>Iniciar sesión</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input id="email" type="email" formControlName="email" placeholder="tu@email.com">
-        @if (f.email.touched && f.email.invalid) {
+        <label for="emailOUsuario">Correo electrónico o nombre de usuario</label>
+        <input id="emailOUsuario" type="text" formControlName="emailOUsuario" placeholder="tu@email.com o tu_usuario">
+        @if (f.emailOUsuario.touched && f.emailOUsuario.invalid) {
           <small class="error">
-            @if (f.email.hasError('required')) {
-              El correo es obligatorio
+            @if (f.emailOUsuario.hasError('required')) {
+              El correo o el nombre de usuario es obligatorio
             } @else {
-              Ingresá un correo válido
+              Mínimo 3 caracteres
             }
           </small>
         }

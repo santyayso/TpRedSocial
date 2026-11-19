@@ -9,103 +9,97 @@
     </div>
   } @else {
     <div class="barra-acciones">
-      <button type="button" (click)="abrirCrear()">Nueva publicación</button>
+      <button type="button" (click)="abrirModalCrear()">Nueva publicación</button>
 
-      <label for="orden">Ordenar por</label>
-      <select id="orden" #ordenSelect [value]="orden()" (change)="cambiarOrden(ordenSelect.value)">
+      <label for="ordenamiento">Ordenar por</label>
+      <select id="ordenamiento" [value]="ordenamiento()" (change)="cambiarOrdenamiento($any($event.target).value)">
         <option value="fecha">Más recientes</option>
         <option value="meGusta">Más me gusta</option>
       </select>
     </div>
 
-    @if (cargando()) {
+    <!-- @if (cargando()) {
       <p>Cargando publicaciones...</p>
-    }
-    @if (error()) {
-      <p role="alert">{{ error() }}</p>
-    }
+    } -->
+
 
     <div class="publicaciones-lista">
       @for (publicacion of publicaciones(); track publicacion.id) {
-        <app-publicacion-card [publicacion]="publicacion" (eliminada)="onEliminada()" />
+                                                         <!-- recibimos el evento del padre -->
+        <app-publicacion-card [publicacion]="publicacion" (eliminada)="eliminarPublicacion()" />
       } @empty {
-        @if (!cargando()) {
+        <!-- @if (!cargando()) {
           <p>Todavía no hay publicaciones.</p>
-        }
+        } -->
+        <p>Todavía no hay publicaciones.</p>
       }
     </div>
 
     <nav class="paginacion">
-      <button type="button" [disabled]="pagina() === 0 || cargando()" (click)="cambiarPagina(-1)">Anterior</button>
-      <span>Página {{ pagina() + 1 }} de {{ totalPaginas() }}</span>
-      <button type="button" [disabled]="pagina() + 1 >= totalPaginas() || cargando()" (click)="cambiarPagina(1)">
+      <!-- boton para retroceder, deshabilitado si estamos en la primer pagina. si hacemos click le pasamos -1 -->
+      <button type="button" [disabled]="numeroPagina() === 0" (click)="cambiarPagina(-1)">Anterior</button>
+      <span>Página {{ numeroPagina() + 1 }} de {{ totalPaginas() }}</span>
+      <!-- boton para avanzar, deshabilitado si estamos en la ultima pagina. si hacemos click le pasamos 1 -->
+      <button type="button" [disabled]="numeroPagina() + 1 >= totalPaginas()" (click)="cambiarPagina(1)">
         Siguiente
       </button>
     </nav>
   }
 
-  
-  @if (creando()) {
-    <app-modal titulo="Nueva publicación" (cerrar)="cerrarCrear()">
-      <form [formGroup]="publicacionForm" (ngSubmit)="publicar()" novalidate>
+  <!-- if para abrir la modal -->
+  @if (modalCrearAbierta()) {
+    <app-modal titulo="Nueva publicación" (cerrarModal)="cerrarModalCrear()">
+
+      <form [formGroup]="publicacionForm" (ngSubmit)="crearPublicacion()">
+
         <div class="form-group">
           <label for="titulo">Título</label>
           <input id="titulo" type="text" formControlName="titulo" placeholder="Título">
-          @if (f.titulo.touched && f.titulo.invalid) {
-            <small class="error">
-              @if (f.titulo.hasError('required') || f.titulo.hasError('pattern')) {
-                El título es obligatorio
-              } @else {
-                Entre 2 y 100 caracteres
-              }
-            </small>
+          @if (formularioControles.titulo.touched && formularioControles.titulo.invalid) {
+            <small class="error">El título es obligatorio (2 a 100 caracteres)</small>
           }
         </div>
 
         <div class="form-group">
           <label for="mensaje">Mensaje</label>
-          <textarea id="mensaje" formControlName="mensaje" rows="4" placeholder="¿Qué querés contar?"></textarea>
-          @if (f.mensaje.touched && f.mensaje.invalid) {
-            <small class="error">
-              @if (f.mensaje.hasError('required') || f.mensaje.hasError('pattern')) {
-                El mensaje es obligatorio
-              } @else {
-                Entre 2 y 500 caracteres
-              }
-            </small>
+          <textarea id="mensaje" formControlName="mensaje" placeholder="¿Qué querés contar?"></textarea>
+          @if (formularioControles.mensaje.touched && formularioControles.mensaje.invalid) {
+            <small class="error">El mensaje es obligatorio (2 a 500 caracteres)</small>
           }
         </div>
 
         <div class="form-group">
           <label for="imagen">Imagen (opcional)</label>
-          <input id="imagen" type="file" accept="image/jpeg,image/png,image/webp" (change)="onArchivo($event)">
+          <input id="imagen" type="file" accept="image/jpeg,image/png,image/webp" (change)="seleccionarArchivo($event)">
           @if (errorArchivo()) {
             <small class="error">{{ errorArchivo() }}</small>
           }
         </div>
 
         @if (errorCrear()) {
-          <div class="error-msg" role="alert">{{ errorCrear() }}</div>
+          <div class="error-msg">{{ errorCrear() }}</div>
         }
-<div class="acciones-publicacion">
-    <button class="boton-publicar" type="submit" [disabled]="enviando()">
-        {{ enviando() ? 'Publicando...' : 'Publicar' }}
-    </button>
 
-    <button class="boton-cancelar" type="button" (click)="cerrarCrear()">
-        Cancelar
-    </button>
-</div>
+        <div class="acciones-publicacion">
+            <button class="boton-publicar" type="submit" [disabled]="enviando()">
+                {{ enviando() ? 'Publicando...' : 'Publicar' }}
+            </button>
+
+            <button class="boton-cancelar" type="button" (click)="cerrarModalCrear()">
+                Cancelar
+            </button>
+        </div>
+
       </form>
     </app-modal>
   }
 
-@if (mensaje()) {
-    <app-modal titulo="Aviso" (cerrar)="mensaje.set(null)">
-        <p>{{ mensaje() }}</p>
+@if (mensajeModal()) {
+    <app-modal titulo="Aviso" (cerrarModal)="mensajeModal.set(null)">
+        <p>{{ mensajeModal() }}</p>
 
         <div class="acciones-modal">
-            <button class="boton-aceptar-modal" type="button" (click)="mensaje.set(null)">
+            <button class="boton-aceptar-modal" type="button" (click)="mensajeModal.set(null)">
                 Aceptar
             </button>
         </div>

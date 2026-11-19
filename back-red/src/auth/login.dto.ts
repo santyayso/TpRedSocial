@@ -1,7 +1,6 @@
 import { Transform } from 'class-transformer';
 import {
   IsByteLength,
-  IsEmail,
   IsString,
   Matches,
   MaxLength,
@@ -9,6 +8,7 @@ import {
 } from 'class-validator';
 
 export class LoginDto {
+  // aca puede llegar el email O el nombre de usuario, por eso ya no validamos que sea un email
   // limpiamos el valor antes de validarlo, pero antes nos  aseguramos que  sea un string para q no explote con trim  y lowercase
   @Transform(({ value }: { value: unknown }) => {
     if (typeof value === 'string') {
@@ -16,9 +16,10 @@ export class LoginDto {
     }
     return value;
   })
-  @IsEmail()
+  @IsString()
+  @MinLength(3)
   @MaxLength(254)
-  email!: string;
+  emailOUsuario!: string;
 
   @IsString()
   @MinLength(8)

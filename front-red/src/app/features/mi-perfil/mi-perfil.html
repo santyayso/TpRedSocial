@@ -6,7 +6,7 @@
       <img [src]="usuario.imagen_url" [attr.alt]="'Foto de ' + usuario.nombreUsuario" class="avatar-grande">
       <div>
         <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
-        <p>&#64;{{ usuario.nombreUsuario }}</p>
+        <p>{{ '@' }}{{ usuario.nombreUsuario }}</p>
         <p>Correo: {{ usuario.email }}</p>
         <p>Fecha de nacimiento: {{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</p>
         <p>Perfil: {{ usuario.perfil }}</p>
@@ -20,12 +20,12 @@
       <p>Cargando publicaciones...</p>
     }
     @if (error()) {
-      <p role="alert">{{ error() }}</p>
+      <p>{{ error() }}</p>
     }
 
     <div class="publicaciones-lista">
       @for (publicacion of publicaciones(); track publicacion.id) {
-        <app-publicacion-card [publicacion]="publicacion" (eliminada)="cargar()" />
+        <app-publicacion-card [publicacion]="publicacion" (eliminada)="cargarPublicaciones()" />
       } @empty {
         @if (!cargando()) {
           <p>Todavía no hiciste publicaciones.</p>

@@ -8,10 +8,13 @@ import { environment } from '../../../environments/environment';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const apiUrl = environment.apiUrl;
 
+  // si no empieza con la url general,  no hacemos  nada
   if (!req.url.startsWith(`${apiUrl}/`)) {
     return next(req);
   }
 
+
+  //  deja pasar si  es una  ruta publica que no requiere token
   const publica = ['/auth/login', '/auth/register'].some(
     (path) => req.url === `${apiUrl}${path}`,
   );
@@ -20,6 +23,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
+  
   const auth = inject(AuthService);
   const router = inject(Router);
   const token = auth.accessToken();

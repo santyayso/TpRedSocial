@@ -4,12 +4,10 @@
     <img [src]="autor.imagen_url" [attr.alt]="'Foto de ' + autor.nombreUsuario" class="avatar">
     <div>
       <strong>{{ autor.nombre }} {{ autor.apellido }}</strong>
-      <small>&#64;{{ autor.nombreUsuario }}</small>
+      <small>{{ '@' }}{{ autor.nombreUsuario }}</small>
     </div>
-    } @else {
-    <strong>Usuario desconocido</strong>
-    }
     <small class="fecha">{{ publicacion().createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+    }
   </header>
 
   <h3>{{ publicacion().titulo }}</h3>
@@ -20,39 +18,57 @@
   }
 
   <footer class="publicacion-acciones">
-    <button type="button" class="btn-me-gusta" [class.activo]="meGusta()" [disabled]="procesando()"
-      (click)="alternarMeGusta()">
-
+    <button type="button" class="btn-me-gusta" [class.activo]="meGusta()" [disabled]="procesando()" (click)="alternarMeGusta()">
+                                <!-- hacemos algo distinto si ya le dimos me gusta  -->
+                                 <!-- span dentro del button -->
       <span class="icono-like">{{ meGusta() ? '♥' : '♡' }}</span>
       {{ meGusta() ? 'Te gusta' : 'Me gusta' }}
-
     </button>
+
     <span>{{ cantidadMeGusta() }} me gusta</span>
 
+    <!-- lleva a la pagina de la publicacion (/publicaciones/el-id) donde se ve en grande y con sus comentarios -->
+    <a class="btn-ver-publicacion" [routerLink]="['/publicaciones', publicacion().id]">Ver publicación</a>
+
+    <!-- habilitamos el boton de  eliminar solo si es mia -->
     @if (esMia()) {
-    <button type="button" class="btn-eliminar" (click)="confirmando.set(true)">Eliminar</button>
+      <!-- si clickeamos en el boton, se setea el modalAbierta el true y mas abajo se abre la modal -->
+    <button type="button" class="btn-eliminar" (click)="modalEliminarAbierta.set(true)">Eliminar</button>
     }
   </footer>
 
-  @if (confirmando()) {
-  <app-modal titulo="Eliminar publicación" (cerrar)="confirmando.set(false)">
+  <!-- todo lo que el padre ponga adentro de <app-publicacion-card> se muestra aca (en el detalle de la publicacion son los comentarios) -->
+  <ng-content />
+
+  <!-- if para abrir o cerrar la modal de eliminar -->
+  @if (modalEliminarAbierta()) {
+                                          <!-- recibimos el evento que viene del hijo -->
+  <app-modal titulo="Eliminar publicación" (cerrarModal)="modalEliminarAbierta.set(false)">
+     <!-- todo esto va en el ng content en el html de la modal-->
     <p>¿Estás seguro de que querés eliminar esta publicación?</p>
     <div class="acciones-modal">
       <button class="boton-eliminar-modal" type="button" (click)="eliminar()">
         Sí, eliminar
       </button>
 
-      <button class="boton-secundario-modal" type="button" (click)="confirmando.set(false)">
+      <button class="boton-secundario-modal" type="button" (click)="modalEliminarAbierta.set(false)">
         Cancelar
       </button>
     </div>
   </app-modal>
   }
 
-  @if (mensaje()) {
-  <app-modal titulo="Aviso" (cerrar)="mensaje.set(null)">
-    <p>{{ mensaje() }}</p>
-    <button type="button" (click)="mensaje.set(null)">Aceptar</button>
+  <!-- if para abrir o cerrar modal que muestra el error -->
+  @if (mensajeError()) {
+                            <!-- recibimos el evento que viene del hijo para cerrar -->
+  <app-modal titulo="Aviso" (cerrarModal)="mensajeError.set(null)">
+      <!-- todo esto va en el ng content en el html de la modal-->
+    <p>{{ mensajeError() }}</p>
+    <div class="acciones-modal">
+    <button class="boton-aceptar-modal" type="button" (click)="mensajeError.set(null)">
+        Aceptar
+    </button>
+</div>
   </app-modal>
   }
 </article>

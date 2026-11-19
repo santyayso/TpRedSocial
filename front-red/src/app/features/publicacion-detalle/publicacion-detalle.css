@@ -1,0 +1,423 @@
+
+.publicacion-detalle-container {
+    width: 90%;
+    max-width: 850px;
+    margin: 2.5rem auto 5rem;
+}
+
+.volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.volver::before {
+    content: "←";
+    font-size: 1.2rem;
+}
+
+.volver:hover {
+    color: var(--cian);
+}
+
+.comentarios {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--borde);
+}
+
+.comentarios > h4 {
+    margin: 0 0 1.3rem;
+    color: var(--texto-principal);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.formulario-comentario {
+    width: 100%;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.formulario-comentario .form-group {
+    margin: 0;
+    gap: 0.4rem;
+}
+
+.formulario-comentario textarea {
+    width: 100%;
+    min-height: 65px;
+    height: 65px;
+    padding: 0.85rem 1rem;
+    background-color: var(--fondo-card);
+    color: var(--texto-principal);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.formulario-comentario textarea::placeholder {
+    color: var(--texto-secundario);
+}
+
+.formulario-comentario textarea:focus {
+    border-color: var(--cian);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+}
+
+.formulario-comentario .editando {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: var(--cian);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.formulario-comentario .error {
+    color: var(--error);
+    font-size: 0.78rem;
+}
+
+.acciones-comentario {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+}
+
+.acciones-comentario button {
+    padding: 0.55rem 1.1rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.acciones-comentario .boton-comentar {
+    background-color: var(--cian);
+    color: var(--fondo);
+    border: 1px solid var(--cian);
+}
+
+.acciones-comentario .boton-comentar:hover:not(:disabled) {
+    background-color: var(--cian-hover);
+    border-color: var(--cian-hover);
+    transform: translateY(-1px);
+}
+
+.acciones-comentario .boton-cancelar {
+    background-color: transparent;
+    color: var(--texto-secundario);
+    border: 1px solid var(--borde);
+}
+
+.acciones-comentario .boton-cancelar:hover {
+    color: var(--cian);
+    border-color: var(--cian);
+}
+
+.acciones-comentario button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.comentarios-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.comentarios-lista > p {
+    padding: 1rem 0;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.comentario {
+    padding: 1.1rem 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.comentario:last-child {
+    border-bottom: none;
+}
+
+.comentario-autor {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.5rem;
+}
+
+.comentario-autor .avatar {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 1px solid var(--borde);
+    border-radius: 50%;
+}
+
+.comentario-autor > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.comentario-autor strong {
+    color: var(--texto-principal);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.comentario-autor small {
+    color: var(--texto-secundario);
+    font-size: 0.75rem;
+}
+
+.comentario-autor .fecha {
+    margin-left: auto;
+    color: var(--texto-secundario);
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.comentario-autor .editado {
+    color: var(--texto-secundario);
+    font-size: 0.72rem;
+    font-style: italic;
+}
+
+.comentario > p {
+    margin: 0 0 0.5rem 2.7rem;
+    color: var(--texto-principal);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.btn-editar-comentario {
+    margin-left: 2.7rem;
+    padding: 0.2rem 0;
+    background: transparent;
+    color: var(--texto-secundario);
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.btn-editar-comentario:hover {
+    color: var(--cian);
+}
+
+.btn-cargar-mas {
+    display: block;
+    margin: 1.3rem auto 0;
+    padding: 0.55rem 1rem;
+    background: transparent;
+    color: var(--cian);
+    border: none;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.btn-cargar-mas:hover:not(:disabled) {
+    color: var(--cian-hover);
+    background-color: rgba(34, 211, 238, 0.06);
+}
+
+.btn-cargar-mas:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.publicacion-detalle-container .sin-sesion {
+    padding: 2.5rem;
+    background-color: var(--fondo-contenedor);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.publicacion-detalle-container .sin-sesion p {
+    color: var(--texto-secundario);
+}
+
+.publicacion-detalle-container .sin-sesion a {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--cian);
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+.publicacion-detalle-container .sin-sesion a:first-of-type {
+    background-color: var(--cian);
+    color: var(--fondo);
+}
+
+@media (max-width: 600px) {
+    .publicacion-detalle-container {
+        width: 94%;
+        margin-top: 1.5rem;
+    }
+
+    .comentarios {
+        margin-top: 1.2rem;
+        padding-top: 1.2rem;
+    }
+
+    .formulario-comentario textarea {
+        min-height: 60px;
+        height: 60px;
+    }
+
+    .comentario-autor {
+        flex-wrap: wrap;
+    }
+
+    .comentario-autor .fecha {
+        margin-left: 2.7rem;
+        width: 100%;
+    }
+
+    .comentario > p {
+        margin-left: 0;
+    }
+
+    .btn-editar-comentario {
+        margin-left: 0;
+    }
+}
+
+
+.comentarios {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+}
+
+.comentarios > h4 {
+    margin-bottom: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.formulario-comentario {
+    margin-bottom: 0.8rem;
+}
+
+.formulario-comentario textarea {
+    min-height: 55px;
+    height: 55px;
+}
+
+.acciones-comentario {
+    margin-top: 0.5rem;
+}
+
+.comentarios-lista {
+    margin-top: 0.5rem;
+}
+
+.comentario {
+    padding: 0.9rem 0;
+}
+
+.comentario-autor {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.7rem;
+    row-gap: 0.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.comentario-autor .avatar {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 36px;
+    height: 36px;
+}
+
+.comentario-autor > div {
+    grid-column: 2;
+    grid-row: 1 / 3;
+}
+
+.comentario-autor .fecha {
+    grid-column: 3;
+    grid-row: 1;
+    margin: 0;
+    width: auto;
+    text-align: right;
+}
+
+.comentario-autor .editado {
+    grid-column: 3;
+    grid-row: 2;
+    text-align: right;
+}
+
+.comentario > p {
+    margin: 0 0 0.3rem 2.7rem;
+}
+
+.btn-editar-comentario {
+    margin-left: 2.7rem;
+}
+
+@media (max-width: 600px) {
+    .comentario-autor {
+        grid-template-columns: 36px minmax(0, 1fr);
+    }
+
+    .comentario-autor .fecha {
+        grid-column: 2;
+        grid-row: 3;
+        text-align: left;
+    }
+
+    .comentario-autor .editado {
+        grid-column: 2;
+        grid-row: 4;
+        text-align: left;
+    }
+
+    .comentario > p,
+    .btn-editar-comentario {
+        margin-left: 2.7rem;
+    }
+}

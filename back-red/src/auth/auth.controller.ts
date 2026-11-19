@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpCode, Post, Req, UploadedFile, UseGuards,UseInterceptors} from '@nestjs/common';
+import {Body, Controller, HttpCode, Post, Req, UploadedFile, UseGuards,UseInterceptors} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Throttle } from '@nestjs/throttler';
 import type { Request } from 'express';
@@ -37,9 +37,10 @@ export class AuthController {
     return this.authService.registrar(datos, archivo);
   }
 
+  // ruta del auth/login
   @Post('login')
   //  maximo 10 intentos cada 15 minutos
-  // ruta del auth/login
+  
   @Throttle({ default: { ttl: 15 * 60 * 1000, limit: 10 } })
   @HttpCode(200)
   login(@Body() datos: LoginDto) {
@@ -47,12 +48,23 @@ export class AuthController {
     return this.authService.login(datos);
   }
 
-  // ruta del auth/mee
-  @Get('me')
+  // ruta del auth/autorizar
+  @Post('autorizar')
+  @HttpCode(200)
+  // antes pasa por el guard que valida el token (si es invalido o esta vencido responde 401)
   @UseGuards(JwtAuthGuard)
-  // antes pasa por el guard que valida el token
-  getUsuarioActual(@Req() req: Request & { user: { sub: string } }) {
-    // delegamos al service
+  autorizar(@Req() req: Request & { user: { sub: string } }) {
+    // si el token es valido devolvemos los datos del usuario, delegamos al service
     return this.authService.obtenerUsuarioActual(req.user.sub);
+  }
+
+  // ruta del auth/refrescar
+  @Post('refrescar')
+  @HttpCode(200)
+  // antes pasa por el guard que valida el token (si es invalido o esta vencido responde 401)
+  @UseGuards(JwtAuthGuard)
+  refrescar(@Req() req: Request & { user: { sub: string } }) {
+    // devolvemos un token nuevo, delegamos al service
+    return this.authService.refrescarSesion(req.user.sub);
   }
 }

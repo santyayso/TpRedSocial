@@ -1,0 +1,103 @@
+<section class="publicacion-detalle-container">
+  <a class="volver" routerLink="/publicaciones">Volver a publicaciones</a>
+
+  @if (!authService.currentUser()) {
+    <div class="sin-sesion">
+      <p>No iniciaste sesión.</p>
+      <a routerLink="/login">Iniciar sesión</a>
+      <a routerLink="/register">Registrarse</a>
+    </div>
+  } @else {
+    <!-- la publicacion es el mismo componente card que usamos en la lista, y los comentarios van ADENTRO de la card (ng-content)
+         para que se vean como parte de la publicacion y no como un formulario aparte -->
+    @if (publicacion(); as publicacionActual) {
+                                                                  <!-- recibimos el evento del hijo -->
+      <app-publicacion-card [publicacion]="publicacionActual" (eliminada)="volverAPublicaciones()">
+        <section class="comentarios">
+          <h4>Comentarios ({{ totalComentarios() }})</h4>
+
+          <!-- escribir un comentario: un solo campo con su boton, igual que se usa tambien para editar -->
+          <form class="formulario-comentario" [formGroup]="comentarioForm" (ngSubmit)="guardarComentario()">
+            <!-- si estamos editando avisamos que lo que se escribe reemplaza al comentario que elegimos -->
+            @if (comentarioEnEdicion()) {
+              <small class="editando">Editando tu comentario</small>
+            }
+
+            <div class="form-group">
+              <textarea formControlName="mensaje" placeholder="Escribí un comentario..." aria-label="Comentario"></textarea>
+              @if (formularioControles.mensaje.touched && formularioControles.mensaje.invalid) {
+                <small class="error">El comentario es obligatorio (hasta 300 caracteres)</small>
+              }
+            </div>
+
+            <div class="acciones-comentario">
+              <button class="boton-comentar" type="submit" [disabled]="enviando()">
+                @if (comentarioEnEdicion()) {
+                  Guardar cambios
+                } @else {
+                  Comentar
+                }
+              </button>
+
+              <!-- el boton de cancelar solo aparece si estamos editando -->
+              @if (comentarioEnEdicion()) {
+                <button class="boton-cancelar" type="button" (click)="terminarEdicion()">
+                  Cancelar edición
+                </button>
+              }
+            </div>
+          </form>
+
+          <div class="comentarios-lista">
+            @for (comentario of comentarios(); track comentario.id) {
+              <article class="comentario">
+                <header class="comentario-autor">
+                  <img [src]="comentario.autor.imagen_url" [attr.alt]="'Foto de ' + comentario.autor.nombreUsuario" class="avatar">
+                  <div>
+                    <strong>{{ comentario.autor.nombre }} {{ comentario.autor.apellido }}</strong>
+                    <small>{{ '@' }}{{ comentario.autor.nombreUsuario }}</small>
+                  </div>
+                  <small class="fecha">{{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+                  <!-- si el comentario fue modificado, avisamos que fue editado -->
+                  @if (comentario.modificado) {
+                    <small class="editado">(editado)</small>
+                  }
+                </header>
+
+                <p>{{ comentario.mensaje }}</p>
+
+                <!-- habilitamos el boton de editar solo si el comentario es mio -->
+                @if (esMiComentario(comentario)) {
+                  <button class="btn-editar-comentario" type="button" (click)="prepararEdicion(comentario)">
+                    Editar
+                  </button>
+                }
+              </article>
+            } @empty {
+              <p>Todavía no hay comentarios.</p>
+            }
+          </div>
+
+          <!-- si todavia quedan comentarios por traer (los que mostramos son menos que el total), mostramos el boton -->
+          @if (comentarios().length < totalComentarios()) {
+            <button class="btn-cargar-mas" type="button" [disabled]="cargandoMasComentarios()" (click)="cargarMasComentarios()">
+              Cargar más
+            </button>
+          }
+        </section>
+      </app-publicacion-card>
+    }
+  }
+
+  @if (mensajeModal()) {
+    <app-modal titulo="Aviso" (cerrarModal)="mensajeModal.set(null)">
+      <p>{{ mensajeModal() }}</p>
+
+      <div class="acciones-modal">
+        <button class="boton-aceptar-modal" type="button" (click)="mensajeModal.set(null)">
+          Aceptar
+        </button>
+      </div>
+    </app-modal>
+  }
+</section>

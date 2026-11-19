@@ -11,14 +11,14 @@ export interface Publicacion {
   titulo: string;
   mensaje: string;
   imagen_url: string;
-  autor: AutorPublicacion | null;
+  autor: AutorPublicacion;
   cantidadMeGusta: number;
   meGusta: boolean;
   createdAt: string;
 }
 
 export interface ListadoPublicaciones {
-  total: number;
+  totalPublicaciones: number;
   offset: number;
   limit: number;
   publicaciones: Publicacion[];
@@ -27,7 +27,7 @@ export interface ListadoPublicaciones {
 export interface EstadoMeGusta {
   id: string;
   cantidadMeGusta: number;
-  meGusta: boolean;
+  meGusta: boolean; // para saber si YO le di me gusta, true o false
 }
 
-export type OrdenPublicaciones = 'fecha' | 'meGusta';
+export type OrdenamientoPublicaciones = 'fecha' | 'meGusta';

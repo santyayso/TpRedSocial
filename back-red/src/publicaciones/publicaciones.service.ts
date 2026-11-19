@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import {BadRequestException, ConflictException, Injectable, NotFoundException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isObjectIdOrHexString } from 'mongoose';
 import { PublicacionMongo } from './publicacion.schema';
@@ -19,11 +14,11 @@ export class PublicacionesService {
   constructor(
     @InjectModel(PublicacionMongo.name)
     private readonly publicaciones: Model<PublicacionMongo>,
-    private readonly usuarios: UsuariosService,
-    private readonly imagenes: ImagenesService,
+    private readonly usuariosService: UsuariosService,
+    private readonly imagenesService: ImagenesService,
   ) {}
 
-  async listar(usuarioId: string, consulta: ListarPublicacionesDto) {
+  async listarPublicaciones(usuarioId: string, consulta: ListarPublicacionesDto) {
     const filtro = {
       eliminada: false,
       ...(consulta.autor ? { autor: consulta.autor } : {}),
@@ -32,7 +27,7 @@ export class PublicacionesService {
       consulta.orden === 'meGusta'
         ? { cantidadMeGusta: -1, createdAt: -1 }
         : { createdAt: -1 };
-    const [documentos, total] = await Promise.all([
+    const [documentos, totalPublicaciones] = await Promise.all([
       this.publicaciones
         .find(filtro)
         .sort(orden)
@@ -42,21 +37,34 @@ export class PublicacionesService {
       this.publicaciones.countDocuments(filtro).exec(),
     ]);
     return {
-      total,
+      totalPublicaciones,
       offset: consulta.offset,
       limit: consulta.limit,
-      publicaciones: await this.presentar(documentos, usuarioId),
+      publicaciones: await this.presentarPublicacionInterfaz(documentos, usuarioId),
     };
   }
 
-  async crear(
+  async obtenerPublicacion(usuarioId: string, id: string) {
+    this.validarId(id);
+    // solo busca publicaciones que no esten eliminadas (baja logica)
+    const publicacion = await this.publicaciones
+      .findOne({ _id: id, eliminada: false })
+      .exec();
+    if (!publicacion) throw new NotFoundException('No existe la publicación');
+
+    // presentarPublicacionInterfaz recibe una lista, asi que le pasamos una lista de 1 y agarramos el primero
+    const [encontrada] = await this.presentarPublicacionInterfaz([publicacion], usuarioId);
+    return encontrada;
+  }
+
+  async crearPublicacion(
     autor: string,
     datos: CrearPublicacionDto,
     archivo?: Express.Multer.File,
   ) {
     const subida = archivo
-      ? await this.imagenes.subirCloudinary(
-          await this.imagenes.normalizarImagen(archivo),
+      ? await this.imagenesService.subirCloudinary(
+          await this.imagenesService.normalizarImagen(archivo),
           'publicaciones',
         )
       : undefined;
@@ -67,15 +75,15 @@ export class PublicacionesService {
         imagen_url: subida?.url ?? '',
         imagen_public_id: subida?.publicId,
       });
-      const [creada] = await this.presentar([publicacion], autor);
+      const [creada] = await this.presentarPublicacionInterfaz([publicacion], autor);
       return creada;
     } catch (error) {
-      await this.imagenes.eliminar(subida?.publicId);
+      await this.imagenesService.eliminar(subida?.publicId);
       throw error;
     }
   }
 
-  async eliminar(usuarioId: string, perfil: string, id: string) {
+  async eliminarPublicacion(usuarioId: string, perfil: string, id: string) {
     this.validarId(id);
     const filtro =
       perfil === 'administrador'
@@ -119,13 +127,13 @@ export class PublicacionesService {
     return { id, cantidadMeGusta: publicacion.cantidadMeGusta, meGusta: false };
   }
 
-  private async presentar(
+  private async presentarPublicacionInterfaz(
     documentos: PublicacionDocument[],
     usuarioId: string,
   ): Promise<PublicacionInterface[]> {
     const autores = new Map(
       (
-        await this.usuarios.listarUsuariosPorIds([
+        await this.usuariosService.listarUsuariosPorIds([
           ...new Set(documentos.map((documento) => documento.autor)),
         ])
       ).map((usuario) => [usuario.id, usuario]),

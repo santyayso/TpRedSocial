@@ -1,4 +1,26 @@
-<app-header />
-<main class="content">
-  <router-outlet />
-</main>
+<!-- mientras validamos el token contra el back mostramos la pantalla de cargando -->
+@if (authService.validandoSesion()) {
+  <app-cargando />
+} @else {
+  <app-header />
+  <main class="content">
+    <router-outlet />
+  </main>
+
+  <!-- modal que avisa que quedan 5 minutos de sesion -->
+  @if (authService.avisoSesionAbierto()) {
+    <app-modal titulo="Tu sesión está por vencer" (cerrarModal)="authService.avisoSesionAbierto.set(false)">
+      <p>Te quedan 5 minutos de sesión. ¿Querés extenderla?</p>
+
+      <div class="acciones-modal">
+        <button class="boton-extender-sesion" type="button" (click)="extenderSesion()">
+          Sí, extender sesión
+        </button>
+
+        <button class="boton-secundario-modal" type="button" (click)="authService.avisoSesionAbierto.set(false)">
+          No, gracias
+        </button>
+      </div>
+    </app-modal>
+  }
+}

@@ -7,5 +7,6 @@ import { Component, input, output } from '@angular/core';
 })
 export class Modal {
   titulo = input('');
-  cerrar = output<void>();
+  // void para que al emitir el evento al padre no se mande nada
+  cerrarModal = output<void>();
 }

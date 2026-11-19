@@ -22,17 +22,21 @@ export class MiPerfil {
   error = signal('');
 
   constructor() {
-    if (this.authService.currentUser()) this.cargar();
+    if (this.authService.currentUser()) this.cargarPublicaciones();
   }
 
-  cargar() {
+  cargarPublicaciones() {
     const usuario = this.authService.currentUser();
-    if (!usuario) return;
+    if (!usuario){
+      return;
+    } 
     this.cargando.set(true);
     this.error.set('');
-    this.publicacionesService.listar(0, 3, 'fecha', usuario.id).subscribe({
-      next: (listado) => {
-        this.publicaciones.set(listado.publicaciones);
+
+    // parametro de offset en 0 y limite en 3, ordenadas por fecha y solo las del  usuario que esta loggeado
+    this.publicacionesService.listarPublicaciones(0, 3, 'fecha', usuario.id).subscribe({
+      next: (respuesta) => {
+        this.publicaciones.set(respuesta.publicaciones);
         this.cargando.set(false);
       },
       error: (error) => {
