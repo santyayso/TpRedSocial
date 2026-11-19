@@ -87,8 +87,8 @@ export class PublicacionDetalle {
       .listarComentarios(this.idPublicacion, offset, COMENTARIOS_POR_CARGA)
       .subscribe({
         next: (respuesta) => {
-          // los ... copian los elementos de cada lista dentro de una lista nueva: primero los anteriores y despues los nuevos
-          // asi no dejamos de mostrar los comentarios que ya estaban
+          // Los ...  desarman una lista y ponen sus elementos sueltos
+          // arma una lista nueva que tiene en orden todos los elementos de la primera y después todos los de la segunda
           this.comentarios.set([...this.comentarios(), ...respuesta.comentarios]);
           this.totalComentarios.set(respuesta.totalComentarios);
           this.cargandoMasComentarios.set(false);
@@ -100,7 +100,7 @@ export class PublicacionDetalle {
       });
   }
 
-  // cuando se elimina la publicacion desde la card, no tiene sentido seguir en esta pagina
+  // cuando se elimina la publicacion desde la card, volvemos a la otra pagina
   volverAPublicaciones() {
     this.router.navigate(['/publicaciones']);
   }
@@ -108,7 +108,7 @@ export class PublicacionDetalle {
   // ==========
   // FORM COMENTARIO (sirve para crear y para editar)
   // ==========
-  comentarioForm = this.fb.nonNullable.group({
+  comentarioForm = this.fb.nonNullable.group({                            // valida que no haya espacios en blanco
     mensaje: ['', [Validators.required, Validators.maxLength(300), Validators.pattern(/\S/)]],
   });
 

@@ -27,8 +27,12 @@
 
     <span>{{ cantidadMeGusta() }} me gusta</span>
 
-    <!-- lleva a la pagina de la publicacion (/publicaciones/el-id) donde se ve en grande y con sus comentarios -->
-    <a class="btn-ver-publicacion" [routerLink]="['/publicaciones', publicacion().id]">Ver publicación</a>
+   
+
+    @if (mostrarVerPublicacion()) {
+       <!-- lleva a la pagina de la publicacion (/publicaciones/el-id) donde se ve en grande y con sus comentarios -->
+  <a class="btn-ver-publicacion" [routerLink]="['/publicaciones', publicacion().id]">Ver publicación</a>
+}
 
     <!-- habilitamos el boton de  eliminar solo si es mia -->
     @if (esMia()) {
@@ -37,7 +41,8 @@
     }
   </footer>
 
-  <!-- todo lo que el padre ponga adentro de <app-publicacion-card> se muestra aca (en el detalle de la publicacion son los comentarios) -->
+  <!-- todo lo que el padre ponga adentro de <app-publicacion-card> se muestra aca 
+    (en el detalle de la publicacion son los comentarios, en publicaciones no ponemos nada adentro) -->
   <ng-content />
 
   <!-- if para abrir o cerrar la modal de eliminar -->

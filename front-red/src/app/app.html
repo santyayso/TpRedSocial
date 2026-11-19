@@ -10,7 +10,7 @@
   <!-- modal que avisa que quedan 5 minutos de sesion -->
   @if (authService.avisoSesionAbierto()) {
     <app-modal titulo="Tu sesión está por vencer" (cerrarModal)="authService.avisoSesionAbierto.set(false)">
-      <p>Te quedan 5 minutos de sesión. ¿Querés extenderla?</p>
+      <p>Te queda 1 minutos de sesión. ¿Querés extenderla?</p>
 
       <div class="acciones-modal">
         <button class="boton-extender-sesion" type="button" (click)="extenderSesion()">

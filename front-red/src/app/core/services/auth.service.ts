@@ -2,26 +2,19 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../models/usuario.interface';
-
-export interface Sesion {
-  access_token: string;
-  usuario: Usuario;
-}
+import { Sesion } from '../models/sesion.interface';
 
 // el token vence a los 15 minutos, asi que avisamos a los 10 (10 minutos pasados a milisegundos)
-const MILISEGUNDOS_HASTA_AVISO = 10 * 60 * 1000;
+const MILISEGUNDOS_HASTA_AVISO = 1 * 60 * 1000;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
   private url = environment.apiUrl + '/auth';
-  private key = 'red-social-token';
-  // aca guardamos el momento en que empezo la sesion (o en que se refresco el token), para calcular cuanto falta para el aviso
-  private keyInicioSesion = 'red-social-inicio-sesion';
-  // guarda el temporizador que esta corriendo, para poder cancelarlo
-  private temporizadorAviso: number | null = null;
 
+  // usuario actual
   currentUser = signal<Usuario | null>(null);
+
   // true mientras la app valida el token contra el back al iniciar (en ese tiempo se muestra la pantalla de cargando)
   validandoSesion = signal(true);
   // true cuando hay que mostrar el modal que avisa que quedan 5 minutos de sesion
@@ -31,11 +24,13 @@ export class AuthService {
     return localStorage.getItem(this.key);
   }
 
+  // funcion para llamar al back
   // el primer dato puede ser el correo o el nombre de usuario, el back se encarga de ver cual es
   signIn(emailOUsuario: string, password: string) {
     return this.http.post<Sesion>(this.url + '/login', { emailOUsuario, password });
   }
 
+  // funcion para llamar al back, registrarse
   signUp(datos: FormData) {
     return this.http.post<Sesion>(this.url + '/register', datos);
   }
@@ -50,6 +45,18 @@ export class AuthService {
     return this.http.post<Sesion>(this.url + '/refrescar', {});
   }
 
+
+
+  private key = 'red-social-token';
+
+  // aca guardamos el momento en que empezo la sesion (o en que se refresco el token), para calcular cuanto falta para el aviso
+  private keyInicioSesion = 'red-social-inicio-sesion';
+
+  // guarda el temporizador que esta corriendo, para poder cancelarlo
+  private temporizadorAviso: number | null = null;
+
+
+  // funcion que recibe una Sesion, (una vez que el sign In la devolvio), para trabajar en el front
   iniciarSesion(sesion: Sesion) {
     localStorage.setItem(this.key, sesion.access_token);
     // Date.now() devuelve la hora actual en milisegundos
@@ -76,6 +83,7 @@ export class AuthService {
       milisegundosRestantes = 0;
     }
 
+    
     // setTimeout ejecuta la funcion una sola vez, cuando pasan los milisegundos que le pasamos
     this.temporizadorAviso = window.setTimeout(() => {
       this.avisoSesionAbierto.set(true);
@@ -89,6 +97,7 @@ export class AuthService {
     }
   }
 
+  // funcion para desllogearse 
   signOut() {
     localStorage.removeItem(this.key);
     localStorage.removeItem(this.keyInicioSesion);

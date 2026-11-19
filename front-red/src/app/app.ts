@@ -46,7 +46,7 @@ export class App {
     });
   }
 
-  // cuando el usuario acepta extender la sesion en el modal
+  // cuando el usuario acepta extender la sesion en la modal
   extenderSesion() {
     this.authService.refrescar().subscribe({
       next: (sesion) => {

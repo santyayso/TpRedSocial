@@ -30,6 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   if (token) {
     req = req.clone({
+      // aca le ponemos la palabra bearer y el token a cualquier peticion que se haga al back (expceto login y register)
       setHeaders: { Authorization: `Bearer ${token}` },
     });
   }

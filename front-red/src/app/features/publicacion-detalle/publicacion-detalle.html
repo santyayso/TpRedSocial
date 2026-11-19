@@ -12,7 +12,7 @@
          para que se vean como parte de la publicacion y no como un formulario aparte -->
     @if (publicacion(); as publicacionActual) {
                                                                   <!-- recibimos el evento del hijo -->
-      <app-publicacion-card [publicacion]="publicacionActual" (eliminada)="volverAPublicaciones()">
+      <app-publicacion-card [publicacion]="publicacionActual" (eliminada)="volverAPublicaciones()" [mostrarVerPublicacion]="false">
         <section class="comentarios">
           <h4>Comentarios ({{ totalComentarios() }})</h4>
 
@@ -24,7 +24,7 @@
             }
 
             <div class="form-group">
-              <textarea formControlName="mensaje" placeholder="Escribí un comentario..." aria-label="Comentario"></textarea>
+              <textarea formControlName="mensaje" placeholder="Escribí un comentario..."></textarea>
               @if (formularioControles.mensaje.touched && formularioControles.mensaje.invalid) {
                 <small class="error">El comentario es obligatorio (hasta 300 caracteres)</small>
               }

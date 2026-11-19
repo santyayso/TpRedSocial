@@ -24,7 +24,8 @@ export class PublicacionCard implements OnInit {
   procesando = signal(false); // para bloquear el boton de me  gusta
   modalEliminarAbierta = signal(false);
   mensajeError = signal<string | null>(null);
-
+  mostrarVerPublicacion = input(true);
+  
   ngOnInit() {
     this.meGusta.set(this.publicacion().meGusta);
     this.cantidadMeGusta.set(this.publicacion().cantidadMeGusta);
